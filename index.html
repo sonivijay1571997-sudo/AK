@@ -5,140 +5,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For My Ladoo</title>
     <style>
-        :root {
-            --primary: #ff4d6d;
-            --glass: rgba(255, 255, 255, 0.1);
-        }
-
         body {
             margin: 0;
-            height: 100vh;
+            background: #0f0c29;
+            background: linear-gradient(to bottom, #24243e, #302b63, #0f0c29);
+            color: white;
+            font-family: 'Georgia', serif;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle at center, #3d0a14, #1a1a1a);
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden;
-            color: white;
+            height: 100vh;
         }
 
-        /* Glass Card */
-        .card {
-            width: 340px;
-            padding: 25px;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-            z-index: 5;
-        }
+        #start-screen { text-align: center; cursor: pointer; }
+        .heart-btn { font-size: 100px; animation: beat 1.2s infinite; display: block; }
+        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-        .img-box {
-            width: 100%;
-            height: 300px;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 4px solid #fff;
-            margin-bottom: 15px;
-        }
+        #main-content { display: none; text-align: center; opacity: 0; transition: opacity 2s; width: 90%; max-width: 500px; }
 
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* Countdown Style */
-        .countdown-container {
-            display: flex;
-            justify-content: space-around;
-            margin: 15px 0;
-            background: rgba(0,0,0,0.3);
-            padding: 10px;
-            border-radius: 15px;
-        }
-        .time-box span { display: block; font-size: 1.2rem; font-weight: bold; color: var(--primary); }
-        .time-box label { font-size: 0.7rem; text-transform: uppercase; opacity: 0.7; }
-
-        /* Music Toggle */
-        .music-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--primary);
-            width: 50px; height: 50px;
+        .hero-img {
+            width: 220px; height: 220px;
             border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 0 0 15px var(--primary);
-            z-index: 10;
+            border: 5px solid #ff4d6d;
+            box-shadow: 0 0 30px #ff4d6d;
+            object-fit: cover;
+            margin-bottom: 10px;
         }
 
-        .heart { position: absolute; pointer-events: none; animation: floatUp 4s linear infinite; }
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0); opacity: 1; }
-            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        /* Gift Box Styles */
+        .gift-container { margin: 20px 0; perspective: 1000px; cursor: pointer; }
+        .gift-box {
+            font-size: 60px;
+            transition: transform 0.5s;
+            display: inline-block;
         }
+        .gift-box:hover { transform: rotate(10deg) scale(1.1); }
+
+        #quote-display {
+            min-height: 60px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            font-style: italic;
+            margin-top: 10px;
+            border-left: 5px solid #ff4d6d;
+        }
+
+        .countdown { display: flex; justify-content: center; gap: 15px; margin-top: 15px; }
+        .time-box { background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; min-width: 50px; }
+        .time-box span { color: #ff4d6d; font-size: 1.5rem; font-weight: bold; display: block; }
     </style>
 </head>
 <body>
 
-    <div id="particles"></div>
-
-    <div class="card">
-        <div class="img-box">
-            <img src="https://ibb.co/p6fbNqr2" alt="Us">
-        </div>
-        
-        <h2 style="margin:5px 0;">Our Big Day In...</h2>
-        
-        <div class="countdown-container">
-            <div class="time-box"><span id="days">00</span><label>Days</label></div>
-            <div class="time-box"><span id="hours">00</span><label>Hrs</label></div>
-            <div class="time-box"><span id="mins">00</span><label>Mins</label></div>
-        </div>
-
-        <p style="font-size: 0.9rem; margin-top: 15px;">"Can't wait to spend forever with you, Ladoo."</p>
+    <div id="start-screen" onclick="begin()">
+        <span class="heart-btn">❤️</span>
+        <h1 style="color: #ff4d6d; text-shadow: 0 0 10px #ff4d6d;">Happy Valentine's Day, Anuda</h1>
+        <p>(Click the heart for your surprise)</p>
     </div>
 
-    <div class="music-btn" onclick="toggleMusic()">🎵</div>
-    
-    <audio id="bg-music" loop>
-        <source src="https://open.spotify.com/track/3hRV0jL3vUpRrcy398teAU" type="audio/mpeg">
-    </audio>
+    <div id="main-content">
+        <img src="couple.jpg" class="hero-img" alt="Anu & Vijay">
+        <h2 style="margin: 0;">My Ladoo</h2>
+        <p style="font-size: 1.1rem; color: #ffb3c1;">"In all the world, there is no heart for me like yours."</p>
+
+        <div class="gift-container" onclick="nextQuote()">
+            <div class="gift-box" id="box">🎁</div>
+            <div id="quote-display">Tap the gift for a message...</div>
+        </div>
+
+        <div class="countdown">
+            <div class="time-box"><span id="days">0</span>Days</div>
+            <div class="time-box"><span id="hours">0</span>Hrs</div>
+            <div class="time-box"><span id="mins">0</span>Mins</div>
+        </div>
+        <p style="margin-top: 15px; font-size: 0.8rem; opacity: 0.7;">Countdown to our wedding</p>
+    </div>
+
+    <audio id="music" loop><source src="song.mp3" type="audio/mpeg"></audio>
 
     <script>
-        // Set your wedding date here (Year, Month - 1, Day)
-        const weddingDate = new Date(2026, 12, 12).getTime(); // Dec 25, 2026 example
+        const quotes = [
+            "You are my today and all of my tomorrows. ❤️",
+            "Being with you is my favorite place to be. 🌸",
+            "I am so lucky to call you my fiancée. 💍",
+            "I love you more than words can say, Ladoo. 😘",
+            "Every day with you is a new adventure. ✨",
+            "I can't wait to see you as my bride! 👰"
+        ];
+        let qIdx = 0;
 
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const diff = weddingDate - now;
-
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-            document.getElementById('days').innerText = d;
-            document.getElementById('hours').innerText = h;
-            document.getElementById('mins').innerText = m;
-        }
-        setInterval(updateCountdown, 1000);
-
-        function toggleMusic() {
-            const music = document.getElementById('bg-music');
-            return music.paused ? music.play() : music.pause();
+        function begin() {
+            document.getElementById('start-screen').style.display = 'none';
+            const main = document.getElementById('main-content');
+            main.style.display = 'block';
+            setTimeout(() => main.style.opacity = '1', 100);
+            document.getElementById('music').play();
+            setInterval(makeHearts, 400);
         }
 
-        // Animated Hearts
-        function createHeart() {
+        function nextQuote() {
+            const display = document.getElementById('quote-display');
+            display.innerText = quotes[qIdx];
+            qIdx = (qIdx + 1) % quotes.length;
+            
+            // Jiggle the box
+            const box = document.getElementById('box');
+            box.style.transform = "scale(1.3) rotate(15deg)";
+            setTimeout(() => box.style.transform = "scale(1) rotate(0deg)", 200);
+        }
+
+        // Timer Logic
+        const wedding = new Date(2026, 12, 12).getTime(); // Dec 25, 2026
+        setInterval(() => {
+            const diff = wedding - new Date().getTime();
+            document.getElementById('days').innerText = Math.floor(diff / 86400000);
+            document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
+            document.getElementById('mins').innerText = Math.floor((diff % 3600000) / 60000);
+        }, 1000);
+
+        function makeHearts() {
             const h = document.createElement('div');
-            h.classList.add('heart');
-            h.innerHTML = Math.random() > 0.5 ? '❤️' : '💖';
+            h.innerHTML = '❤️';
+            h.style.position = 'fixed';
             h.style.left = Math.random() * 100 + 'vw';
-            h.style.fontSize = (Math.random() * 20 + 10) + 'px';
-            h.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            h.style.bottom = '-20px';
+            h.style.fontSize = Math.random() * 20 + 10 + 'px';
+            h.style.transition = 'transform 6s linear, opacity 6s';
             document.body.appendChild(h);
-            setTimeout(() => h.remove(), 4000);
+            setTimeout(() => {
+                h.style.transform = `translateY(-110vh) rotate(${Math.random() * 360}deg)`;
+                h.style.opacity = '0';
+            }, 100);
+            setTimeout(() => h.remove(), 6000);
         }
-        setInterval(createHeart, 400);
     </script>
 </body>
 </html>
